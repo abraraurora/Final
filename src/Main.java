@@ -125,7 +125,7 @@ class StudentManagement extends Menus<Character> {
     public StudentManagement(MainMenu mainMenuObj){
         this.mainMenuObj = mainMenuObj;
     }
-    public StudentManagement(){
+    public StudentManagement(){ 
 
     }
     @Override
@@ -160,8 +160,6 @@ class StudentManagement extends Menus<Character> {
         return studentSelection;
     }
 
-    // Need to fix formatting for this class
-    // ...
     @Override
     public void menuSelectCheck() {
 
