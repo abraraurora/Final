@@ -22,6 +22,8 @@ public class Main { //main class where all the classes and methods will be calle
         StudentManagement studentMenu = new StudentManagement();
         CourseManagement courseMenu = new CourseManagement();
         newFileInt.initialize();
+        //FOLLOW THIS CONSTRUCTOR FORMAT!! IF NEED BE ADJUST YOUR CODE SO WE CAN DO THIS!!1
+        //OTHERWISE WE WILL END UP WITH INFINITE OBJECT RECURSION
         MainMenu mainMenu = new MainMenu(courseMenu,studentMenu);
         //insert main code here for main program to run
         //......
@@ -116,7 +118,14 @@ class MainMenu extends Menus<Integer> {
 }
 
 class StudentManagement extends Menus<Character> {
+        //initially I created this mainMenu object assuming it would be required for the option to go back to main, but it is unecessary because if you call the studentMenu method from main you can just use return; as your statement for the "return to main" switch body
+        private MainMenu mainMenuObj;
+        public StudentManagement(MainMenu mainMenuObj){
+        this.mainMenuObj = mainMenuObj;
+    }
+    public StudentManagement(){
 
+    }
     @Override
     public Character menuPromptAndSelect() {
         boolean toggle = true;
