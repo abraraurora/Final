@@ -212,15 +212,29 @@ class StudentManagement extends Menus<Character> {
 
 
                     String remaining;
-                    remaining = addStudent.nextLine();
+                    String [] remainArray;
+                    String [] CrnNumbers;
 
-                    ///input like this Joe|3.0|3000,4000|yes
-                    String[] remainArray = remaining.split("\\|");
-                    String[] CrnNumbers = remainArray[remainArray.length - 2].split(",");
+                    while(true){
+                        remaining = addStudent.nextLine().trim();
+
+                        ///input like this Joe|3.0|3000,4000|yes
+                        remainArray = remaining.split("\\|");
+                        if(remainArray.length == 4){
+                            if(remainArray[remainArray.length - 2].matches("^\\d+(,\\d+)*$")){
+                                CrnNumbers = remainArray[remainArray.length - 2].split(",");
+                                break;
+                            }
+                        }
+
+                        System.out.println("INPUT IS WRONG THE FORMAT IS: name|gpa|number,number|yes/no");
+                        System.out.println("Try Again:");
+                    }
+                    
 
                     name = remainArray[0];
                     gpa  = Double.parseDouble(remainArray[1]);
-                    if (remainArray[remainArray.length-1].equals("yes")){
+                    if (remainArray[remainArray.length-1].equalsIgnoreCase("yes")){
                         resident = true;
                     }else {
                         resident = false;
@@ -245,14 +259,22 @@ class StudentManagement extends Menus<Character> {
                     System.out.println("Enter Remaining Information i.e Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442");
 
                     String remaining,advisorName, subject,name;
+                    String [] labNumbers;
+                    String [] remainArray;
 
-
-
-                    remaining = addStudent.nextLine();
-                    //getting the input in this format Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442
-                    String[] remainArray = remaining.split("\\|");
-                    String[] labNumbers = remainArray[remainArray.length - 1].split(",");
-
+                    while (true){
+                        remaining = addStudent.nextLine().trim();
+                        //getting the input in this format Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442
+                        remainArray = remaining.split("\\|");
+                        if (remainArray.length == 4 ){
+                            if (remainArray[remainArray.length - 1].matches("^\\d+(,\\d+)*$")){
+                                labNumbers = remainArray[remainArray.length - 1].split(",");
+                                break;
+                            }
+                        }
+                        System.out.println("INPUT IS WRONG THE FORMAT IS: name|advisor name|subject|number,number");
+                        System.out.println("Try Again:");
+                    }
 
                     name = remainArray[0];
                     advisorName = remainArray[1];
@@ -277,9 +299,21 @@ class StudentManagement extends Menus<Character> {
                     System.out.println("Enter Remaining Information i.e NAME|1234,5678");
 
                     String remaining, name;
-                    remaining = addStudent.nextLine();
-                    String[] remainArray = remaining.split("\\|");
-                    String[] CrnNumbers = remainArray[remainArray.length - 1].split(",");
+                    String [] remainArray;
+                    String [] CrnNumbers;
+
+                    while(true){
+                        remaining = addStudent.nextLine().trim();
+                        remainArray = remaining.split("\\|");
+                        if(remainArray.length == 2){
+                            if(remainArray[remainArray.length - 1].matches("^\\d+(,\\d+)*$")){
+                                CrnNumbers = remainArray[remainArray.length - 1].split(",");
+                                break;
+                            }
+                        }
+                        System.out.println("INPUT IS WRONG THE FORMAT IS: name|number,number");
+                        System.out.println("Try Again:");
+                    }
 
                     name = remainArray[0];
 
