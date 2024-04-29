@@ -18,13 +18,15 @@ import java.util.regex.Pattern;
 public class Main { //main class where all the classes and methods will be called
     static studentLinkedList school= new studentLinkedList();
     public static void main(String[] args) {
-        //Linked List holds all the students
-        //not sure where to initialize this based on menu objects
-        Menus menu = new MainMenu();
-        while (true){
-            menu.menuSelectCheck();
-        }
-        
+        FileInteractions newFileInt = new FileInteractions();
+        StudentManagement studentMenu = new StudentManagement();
+        CourseManagement courseMenu = new CourseManagement();
+        newFileInt.initialize();
+        MainMenu mainMenu = new MainMenu(courseMenu,studentMenu);
+        //insert main code here for main program to run
+        //......
+        FileWriteIO newFileWrite = new FileWriteIO();
+        newFileWrite.fileWriter();
     }
 }
 
@@ -52,9 +54,13 @@ abstract class Menus<T> {
 class MainMenu extends Menus<Integer> {
 
     // Objects for class to access overridden methods
-    StudentManagement studentManagementMenu = new StudentManagement();
-    CourseManagement courseManagementMenu = new CourseManagement();
+    private StudentManagement studentManagementMenu;
+    private CourseManagement courseManagementMenu;
 
+    public MainMenu(CourseManagement courseManagementMenu,StudentManagement studentManagementMenu){
+        this.courseManagementMenu = courseManagementMenu;
+        this.studentManagementMenu = studentManagementMenu;
+    }
     // Takes user input stored in the Menu Class
     @Override
     public void menuSelectCheck() {
@@ -64,7 +70,9 @@ class MainMenu extends Menus<Integer> {
 
             // User selects "Exit"
             case 0->{ System.out.println("Take Care!");
-                System.exit(0);break;}
+                     FileWriteIO newFileWrite = new FileWriteIO();
+                     newFileWrite.fileWriter();
+                     System.exit(0);break;}
 
             // User selects "Student Management"
             case 1->{studentManagementMenu.menuSelectCheck();
