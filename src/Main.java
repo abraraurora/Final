@@ -21,8 +21,9 @@ public class Main { //main class where all the classes and methods will be calle
         //Linked List holds all the students
         //not sure where to initialize this based on menu objects
         Menus menu = new MainMenu();
-
-        menu.menuSelectCheck();
+        while (true){
+            menu.menuSelectCheck();
+        }
         
     }
 }
@@ -74,7 +75,7 @@ class MainMenu extends Menus<Integer> {
             case 2->{courseManagementMenu.menuSelectCheck();break;}
 
             // Error, should never be reached
-            default -> {System.out.println("fatal error! program will shutdown");System.exit(1);}
+            default -> {System.out.println("Wrong Input Try Again");}
         }
     }
 
@@ -84,24 +85,24 @@ class MainMenu extends Menus<Integer> {
         int mainSelection = -1;
         Scanner mainScan = new Scanner(System.in);
 
-        while (toggle) {
-            try {
-                System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
-                mainSelection = mainScan.nextInt();
+        
+        try {
+            System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
+            mainSelection = mainScan.nextInt();
 
-                if (2<mainSelection || mainSelection<0) {
-                    throw new MyException();
-                }
-            } catch (MyException | Exception e) {
-                System.out.println("invalid input!");
-                mainScan.nextLine();
-                
-            } finally {
-                if (mainSelection >= 0 && mainSelection <= 2) {
-                    toggle = false;
-                }
+            if (2<mainSelection || mainSelection<0) {
+                throw new MyException();
+            }
+        } catch (MyException | Exception e) {
+            System.out.println("invalid input!");
+            mainScan.nextLine();
+            
+        } finally {
+            if (mainSelection >= 0 && mainSelection <= 2) {
+                toggle = false;
             }
         }
+        
         return mainSelection;
     }
 }
@@ -133,6 +134,7 @@ class StudentManagement extends Menus<Character> {
         }
         catch (MyException | Exception e) {
             System.out.println("invalid input!");
+            return 'Z';
         }
         finally {
             //this isn't necessary
@@ -149,62 +151,71 @@ class StudentManagement extends Menus<Character> {
     public void menuSelectCheck() {
 
         char sMenuSelection;
-        sMenuSelection = menuPromptAndSelect();
+        while (true){
+            sMenuSelection = menuPromptAndSelect();
+            if(sMenuSelection != 'Z'){
+                break;
+            }
+        }
         Scanner addStudent= new Scanner(System.in);
 
         switch (sMenuSelection){
             case 'A'->{
 
                 String name,id, type;
-                double gpa;
                 int classes;
 
+                while (true){
+                    try {
+                    
+                        System.out.println("Enter student ID:");
+                        id = addStudent.nextLine();
 
-            try {
-            
-                System.out.println("Enter student ID:");
-                id = addStudent.nextLine();
-
-                if (Main.school.searchStudent(id)) {
-                    System.out.println("Student with ID " + id + " already exists.");
-                    return;
-                }
-
-                if (!MyException.validateID(id)) {
-                    throw new MyException();
-                }
-
-            } catch (MyException e) {
-                System.out.println("Invalid ID format. Please enter in the correct format.");
-                return;
-            }
-                System.out.println("Enter the student's name:");
-                name=addStudent.nextLine();
-
-                try{
-                     System.out.println("What Is The Students GPA");
-                    gpa=addStudent.nextDouble();
-                    addStudent.nextLine();//discard '\n'
-
-                    if  (gpa < 0 || gpa > 4.0){
-                        throw new IllegalArgumentException("GPA must be between 0 and 4.0");
+                        if (Main.school.searchStudent(id)) {
+                            System.out.println("Student with ID " + id + " already exists.");
+                            throw new MyException();
+                        }
+                        
+                        if (!MyException.validateID(id)) {
+                            throw new MyException();
+                        }
+                        break;
+                    } catch (MyException e) {
+                        System.out.println("Invalid ID format. Please enter in the correct format.");
                     }
-                }catch (InputMismatchException e){
-                    System.out.println("Invalid input format. Please enter a valid GPA.");
-                    return;
-                }catch(IllegalArgumentException e){
-                    System.out.println(e.getMessage());
-                    return;
                 }
-
-
 
                 System.out.println("What Type of Student (PhD, MS or Undergrad):");
                 type=addStudent.nextLine();
 
 
                 if(type.equals("Undergrad")){
+                    double gpa;
+
                     System.out.println("ADDING AN : Undergrad Student");
+                    System.out.println("Enter the student's name:");
+                    name=addStudent.nextLine();
+
+                    while (true){
+                        try{
+                            System.out.println("What Is The Students GPA");
+                            gpa=addStudent.nextDouble();
+                            addStudent.nextLine();//discard '\n'
+
+                                if  (gpa < 0 || gpa > 4.0){
+                                    throw new IllegalArgumentException("GPA must be between 0 and 4.0");
+                                }
+
+                            //if GPA is Valid, Break the Loop
+                            break;
+                        }catch (InputMismatchException e){
+                            System.out.println("Invalid input format. Please enter a valid GPA.");
+                        }catch(IllegalArgumentException e){
+                            System.out.println(e.getMessage());
+                        }
+                    }
+
+
                     System.out.println("How Many CRNS Are They Taking");
                     classes=addStudent.nextInt();
                     addStudent.nextLine();//discard '\n'
@@ -221,6 +232,7 @@ class StudentManagement extends Menus<Character> {
                     //creating student
                     Student newStudent= new UndergraduateStudent(name,id,undergradCrnsTaken,gpa,false);
                     Main.school.addNewStudent(newStudent);
+                    System.out.println(name + " ADDED");
                 }
 
                 //different inputs for different types of students
@@ -251,23 +263,29 @@ class StudentManagement extends Menus<Character> {
                     
                     Student newPhdStudent= new PHDStudent(name, id, labsSupervised,advisorName,subject);
                     Main.school.addNewStudent(newPhdStudent);
+                    System.out.println(name + " ADDED");
                 }
 
                 if(type.equals("MS")){
                     System.out.println("ADDING AN : Master Student");
+                    
+                    System.out.println("Enter the student's name:");
+                    name=addStudent.nextLine();
 
                     System.out.println("How Many CRNS Are They Taking");
 
-                    try{
 
-                        classes=addStudent.nextInt();
-                        addStudent.nextLine();//discard '\n'
+                    while (true){
+                        try{
 
-                    }catch(InputMismatchException e){
-                        System.out.println("Invalid input. It Has To Be A Number");
-                        return;
+                            classes=addStudent.nextInt();
+                            addStudent.nextLine();//discard '\n'
+                            break;
+                        }catch(InputMismatchException e){
+                            System.out.println("Invalid input. It Has To Be A Number");
+                        }
                     }
-                    
+
                     int gradCrnsTaken[]=new int[classes];
                     for (int i=0; i<classes;i++){
                         System.out.println("What Class Number "+(i+1)+" Code");
@@ -282,9 +300,10 @@ class StudentManagement extends Menus<Character> {
 
                     Student newMasterStudent= new MSStudent(name, id, gradCrnsTaken);
                     Main.school.addNewStudent(newMasterStudent);
+                    System.out.println(name + " ADDED");
                 }
-
-                System.out.println(name + " ADDED");
+                
+                
                 break;
             }//Add studeent
             case 'B'->{
