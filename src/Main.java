@@ -294,7 +294,11 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("What Is The Student's ID:");
                 id=addStudent.nextLine();
 
-                Main.school.searchStudent(id);
+                if (!Main.school.searchStudent(id)){
+                    System.out.println("Student Not Found")
+                }else{
+                    System.out.println(Main.school.searchStudent(id).getStudent().getName());
+                }
                 break;
             }//Search Student
             case 'C'->{
@@ -306,8 +310,8 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
-                if (Main.school.searchStudent(id)) {
-                    System.out.println("Student with ID " + id + " already exists.");
+                if (!Main.school.searchStudent(id)) {
+                    System.out.println("No Student Exists With that ID");
                     return;
                 }
 
@@ -332,8 +336,8 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
-                if (Main.school.searchStudent(id)) {
-                    System.out.println("Student with ID " + id + " already exists.");
+                if (!Main.school.searchStudent(id)) {
+                    System.out.println("No Student Exist With That ID");
                     return;
                 }
 
@@ -699,17 +703,17 @@ class studentLinkedList {
     }
 
     // Search the student by ID
-    public boolean searchStudent(String id) {
+    public studentLinkedList searchStudent(String id) {
 
         studentNode current = school;
         while (current != null) {
             if (current.getStudent().getId().equals(id)) {
                 System.out.println(current.getStudent());
-                return true;
+                return current;
             }
             current = current.getNext();
         }
-        return false;
+        return current;
     }
 
     // Deletes the student by id
