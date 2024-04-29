@@ -1,5 +1,5 @@
-//Group Names: 
-//Aridsondez Jerome 
+//Group Names:
+//Aridsondez Jerome
 //Abrar Aurora
 //Mohamed Moussa
 //Dylan Weber
@@ -26,9 +26,6 @@ public class Main { //main class where all the classes and methods will be calle
         //OTHERWISE WE WILL END UP WITH INFINITE OBJECT RECURSION
         MainMenu mainMenu = new MainMenu(courseMenu,studentMenu);
         //insert main code here for main program to run
-        
-        FileWriteIO newFileWrite = new FileWriteIO();
-        newFileWrite.fileWriter();
 
         //main looop has to be here or the filewrite wont work
         while (true){
@@ -77,9 +74,9 @@ class MainMenu extends Menus<Integer> {
 
             // User selects "Exit"
             case 0->{ System.out.println("Take Care!");
-                     FileWriteIO newFileWrite = new FileWriteIO();
-                     newFileWrite.fileWriter();
-                     System.exit(0);break;}
+                FileWriteIO newFileWrite = new FileWriteIO();
+                newFileWrite.fileWriter();
+                System.exit(0);break;}
 
             // User selects "Student Management"
             case 1->{studentManagementMenu.menuSelectCheck();
@@ -100,7 +97,7 @@ class MainMenu extends Menus<Integer> {
         int mainSelection = -1;
         Scanner mainScan = new Scanner(System.in);
 
-        
+
         try {
             System.out.println("-------------------------------------------\nMain Menu\n\n1 : Student Management\n2 : Course Management\n0 : Exit");
             mainSelection = mainScan.nextInt();
@@ -111,21 +108,21 @@ class MainMenu extends Menus<Integer> {
         } catch (MyException | Exception e) {
             System.out.println("invalid input!");
             mainScan.nextLine();
-            
+
         } finally {
             if (mainSelection >= 0 && mainSelection <= 2) {
                 toggle = false;
             }
         }
-        
+
         return mainSelection;
     }
 }
 
 class StudentManagement extends Menus<Character> {
-        //initially I created this mainMenu object assuming it would be required for the option to go back to main, but it is unecessary because if you call the studentMenu method from main you can just use return; as your statement for the "return to main" switch body
-        private MainMenu mainMenuObj;
-        public StudentManagement(MainMenu mainMenuObj){
+    //initially I created this mainMenu object assuming it would be required for the option to go back to main, but it is unecessary because if you call the studentMenu method from main you can just use return; as your statement for the "return to main" switch body
+    private MainMenu mainMenuObj;
+    public StudentManagement(MainMenu mainMenuObj){
         this.mainMenuObj = mainMenuObj;
     }
     public StudentManagement(){
@@ -185,7 +182,7 @@ class StudentManagement extends Menus<Character> {
 
                 while (true){
                     try {
-                    
+
                         System.out.println("Enter student ID:");
                         id = addStudent.nextLine();
 
@@ -193,7 +190,7 @@ class StudentManagement extends Menus<Character> {
                             System.out.println("Student with ID " + id + " already exists.");
                             throw new MyException();
                         }
-                        
+
                         if (!MyException.validateID(id)) {
                             throw new MyException();
                         }
@@ -219,14 +216,14 @@ class StudentManagement extends Menus<Character> {
                     String remaining;
                     remaining = addStudent.nextLine();
 
-                    ///input like this Joe|3.0|3000,4000|yes 
+                    ///input like this Joe|3.0|3000,4000|yes
                     String[] remainArray = remaining.split("\\|");
                     String[] CrnNumbers = remainArray[remainArray.length - 2].split(",");
 
                     name = remainArray[0];
                     gpa  = Double.parseDouble(remainArray[1]);
                     if (remainArray[remainArray.length-1].equals("yes")){
-                        resident = true; 
+                        resident = true;
                     }else {
                         resident = false;
                     }
@@ -235,7 +232,7 @@ class StudentManagement extends Menus<Character> {
 
                     int [] undergradCrnsTaken = new int [numOfCrns];
 
-                     for (int i = 0; i < numOfCrns ; i++){
+                    for (int i = 0; i < numOfCrns ; i++){
                         undergradCrnsTaken[i] = Integer.parseInt(CrnNumbers[i]);
                     }
 
@@ -251,7 +248,7 @@ class StudentManagement extends Menus<Character> {
 
                     String remaining,advisorName, subject,name;
 
-                    
+
 
                     remaining = addStudent.nextLine();
                     //getting the input in this format Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442
@@ -262,7 +259,7 @@ class StudentManagement extends Menus<Character> {
                     name = remainArray[0];
                     advisorName = remainArray[1];
                     subject = remainArray[2];
-                    
+
                     int numOfLabs = labNumbers.length;
                     int [] labsSupervised = new int[numOfLabs];
 
@@ -270,7 +267,7 @@ class StudentManagement extends Menus<Character> {
                         labsSupervised[i] = Integer.parseInt(labNumbers[i]);
                         System.out.println("Adding "+ labsSupervised[i]);
                     }
-                    
+
                     Student newPhdStudent= new PHDStudent(name, id, labsSupervised,advisorName,subject);
                     Main.school.addNewStudent(newPhdStudent);
                     System.out.println(name + " ADDED");
@@ -278,7 +275,7 @@ class StudentManagement extends Menus<Character> {
 
                 if(type.equals("MS")){
                     System.out.println("ADDING AN : Master Student");
-                    
+
                     System.out.println("Enter Remaining Information i.e NAME|1234,5678");
 
                     String remaining, name;
@@ -287,12 +284,12 @@ class StudentManagement extends Menus<Character> {
                     String[] CrnNumbers = remainArray[remainArray.length - 1].split(",");
 
                     name = remainArray[0];
-                    
+
                     int numOfCrns = CrnNumbers.length;
 
                     int [] gradCrnsTaken = new int [numOfCrns];
 
-                     for (int i = 0; i < numOfCrns ; i++){
+                    for (int i = 0; i < numOfCrns ; i++){
                         gradCrnsTaken[i] = Integer.parseInt(CrnNumbers[i]);
                     }
 
@@ -303,8 +300,8 @@ class StudentManagement extends Menus<Character> {
                     Main.school.addNewStudent(newMasterStudent);
                     System.out.println(name + " ADDED");
                 }
-                
-                
+
+
                 break;
             }//Add studeent
             case 'B'->{
@@ -322,25 +319,25 @@ class StudentManagement extends Menus<Character> {
             case 'C'->{
                 //get input w/ scanner
                 String id;
-                
-            try {
-            
-                System.out.println("Enter student ID:");
-                id = addStudent.nextLine();
 
-                if (Main.school.searchStudent(id)==null) {
-                    System.out.println("No Student Exists With that ID");
+                try {
+
+                    System.out.println("Enter student ID:");
+                    id = addStudent.nextLine();
+
+                    if (Main.school.searchStudent(id)==null) {
+                        System.out.println("No Student Exists With that ID");
+                        return;
+                    }
+
+                    if (!MyException.validateID(id)) {
+                        throw new MyException();
+                    }
+
+                } catch (MyException e) {
+                    System.out.println("Invalid ID format. Please enter in the correct format.");
                     return;
                 }
-
-                if (!MyException.validateID(id)) {
-                    throw new MyException();
-                }
-
-            } catch (MyException e) {
-                System.out.println("Invalid ID format. Please enter in the correct format.");
-                return;
-            }
 
                 Main.school.deleteStudent(id);
                 break;
@@ -348,25 +345,25 @@ class StudentManagement extends Menus<Character> {
             case 'D'->{
 
                 String id;
-                
-            try {
-            
-                System.out.println("Enter student ID:");
-                id = addStudent.nextLine();
 
-                if (Main.school.searchStudent(id)==null) {
-                    System.out.println("No Student Exist With That ID");
+                try {
+
+                    System.out.println("Enter student ID:");
+                    id = addStudent.nextLine();
+
+                    if (Main.school.searchStudent(id)==null) {
+                        System.out.println("No Student Exist With That ID");
+                        return;
+                    }
+
+                    if (!MyException.validateID(id)) {
+                        throw new MyException();
+                    }
+
+                } catch (MyException e) {
+                    System.out.println("Invalid ID format. Please enter in the correct format.");
                     return;
                 }
-
-                if (!MyException.validateID(id)) {
-                    throw new MyException();
-                }
-
-            } catch (MyException e) {
-                System.out.println("Invalid ID format. Please enter in the correct format.");
-                return;
-            }
 
                 Main.school.printFeeInvoice(id);
                 break;
@@ -382,13 +379,13 @@ class StudentManagement extends Menus<Character> {
 }
 
 class CourseManagement extends Menus<Character> {
-     private MainMenu mainMenuObj;
-     public CourseManagement(){
+    private MainMenu mainMenuObj;
+    public CourseManagement(){
 
-     }
-     public CourseManagement(MainMenu mainMenuObj){
-         this.mainMenuObj = mainMenuObj;
-     }
+    }
+    public CourseManagement(MainMenu mainMenuObj){
+        this.mainMenuObj = mainMenuObj;
+    }
 
     FileInteractions fileIntObject = new FileInteractions();
     public Character menuPromptAndSelect() {
@@ -461,20 +458,22 @@ class CourseManagement extends Menus<Character> {
             }
 
             case 'b' -> {System.out.println("Enter the Lab/course number you want deleted:");
-                    Scanner crnScan = new Scanner(System.in);
-                    int selectionNum = crnScan.nextInt();
-                    ArrayList<Lecture> dummyCourseList = new ArrayList<>(fileIntObject.getAllCourseList());
-                    boolean negativeflag = true;
-                    for(Lecture course: dummyCourseList){
-                        if(Integer.parseInt(course.getCrn()) == selectionNum && !course.isHasLabs()){
-                            System.out.println("[" + course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "] deleted!");
-                            fileIntObject.getAllCourseList().remove(course);
-                            negativeflag = false;
-                        }
+                Scanner crnScan = new Scanner(System.in);
+                int selectionNum = crnScan.nextInt();
+                ArrayList<Lecture> dummyCourseList = new ArrayList<>(fileIntObject.getAllCourseList());
+                boolean negativeflag = true;
+                for(Lecture course: dummyCourseList){
+                    if(Integer.parseInt(course.getCrn()) == selectionNum && !course.isHasLabs()){
+                        System.out.println("[" + course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "] deleted!");
+                        fileIntObject.getAllCourseList().remove(course);
+                        negativeflag = false;
+                        FileWriteIO newFileWrite = new FileWriteIO();
+                        newFileWrite.fileWriter();
                     }
-                    if (negativeflag){
-                        System.out.println("Class not found!");
-                    }
+                }
+                if (negativeflag){
+                    System.out.println("Class not found!");
+                }
             }
             case 'c' -> {Scanner crnScan = new Scanner(System.in);
                 System.out.println("Enter the course you'd like to add a lab to:");
@@ -483,25 +482,29 @@ class CourseManagement extends Menus<Character> {
                 boolean negativeFlag = true;
                 for(Lecture course: fileIntObject.getAllCourseList()){
                     if(Integer.parseInt(course.getCrn()) == selectionNum && course.isHasLabs()) {
-                            System.out.println("enter the information for the lab in this format -> crn,classroom :");
-                            String unparsedInput = crnScan.nextLine();
-                            String[] labInfo = unparsedInput.split(",");
-                            Lab newLab = new Lab(labInfo[0],labInfo[1]);
-                            boolean labFlag = false;
-                            for(Lab lab : course.getLabs()){
-                                if(lab.getCrn().equals(newLab.getCrn())){
-                                    labFlag = true;
-                                }
-                            }
-                            if(labFlag){
-                                System.out.println("Lab already exists for this class!");
-                            }
-                            else if(!labFlag){
-                                course.getLabs().add(newLab);
-                                System.out.println("Lab " + newLab.getCrn() + " added to class " + course.getCrn() + "-" + course.getPrefix() + "-" + course.getLectureName() + " Successfully!" );
+                        negativeFlag = false;
+                        System.out.println("enter the information for the lab in this format -> crn,classroom :");
+                        String unparsedInput = crnScan.nextLine();
+                        String[] labInfo = unparsedInput.split(",");
+                        Lab newLab = new Lab(labInfo[0],labInfo[1]);
+                        boolean labFlag = false;
+                        for(Lab lab : course.getLabs()){
+                            if(lab.getCrn().equals(newLab.getCrn())){
+                                labFlag = true;
+                                break;
                             }
                         }
+                        if(labFlag){
+                            System.out.println("Lab already exists for this class!");
+                        }
+                        else if(!labFlag){
+                            course.getLabs().add(newLab);
+                            System.out.println("Lab " + newLab.getCrn() + " added to class " + course.getCrn() + "-" + course.getPrefix() + "-" + course.getLectureName() + " Successfully!" );
+                        }
                     }
+                }
+                FileWriteIO newFileWrite = new FileWriteIO();
+                newFileWrite.fileWriter();
                 if (negativeFlag){
                     System.out.println("class not found!");
                 }
@@ -546,7 +549,7 @@ abstract class Student {
 }
 
 class UndergraduateStudent extends Student{
-
+    FileInteractions courseAccess = new FileInteractions();
     private int[] undergradCrnsTaken;
     private double gpa;
     private boolean resident;
@@ -600,18 +603,25 @@ class UndergraduateStudent extends Student{
         System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
 
         // Loop through classes
-        for (int i = 0; i < this.undergradCrnsTaken.length; i++) {
-            System.out.printf("\n%d\t%s\t\t%d", undergradCrnsTaken[i], undergradCrnsTaken[i], undergradCrnsTaken[i]);
+        for(int crnsStudent: undergradCrnsTaken){
+            for(Lecture course: courseAccess.getAllCourseList()){
+                if(Integer.parseInt(course.getCrn())==crnsStudent){
+                    System.out.println(course.getCrn() +"\t" +  course.getPrefix() + "\t"+course.getCreditHours() + "\t   $" + course.getCreditHours() *basePrice );
+                    double classCost = course.getCreditHours() *basePrice;
+                    price = price + classCost;
+                }
+            }
         }
 
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
         System.out.println("\n---------------------------------");
         double discount = 0;
         if (getGpa() >= 3.5 && price > 500) { // For some reason, it says that this is always false?
-            discount = price - (price * 0.25);
-            // print total minus discounted prices
+            discount = price - (price * 0.75);
+            System.out.println("\t\t\t  discount     -$" + discount);
+            System.out.println("\t\tTOTAL PAYMENTS\t\t$" + (price-discount));
         } else {
-            System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
+            System.out.println("\t\tTOTAL PAYMENTS\t\t$" + price);
         }
     }
 }
@@ -671,7 +681,7 @@ class PHDStudent extends GraduateStudent {
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
         System.out.println(getId() + "-" + getName());
-        
+
         System.out.println("RESEARCH");
         //checking the amount of labs supervised
         if (labsSupervised.length== 2){
@@ -684,16 +694,17 @@ class PHDStudent extends GraduateStudent {
             total = basePrice+ health;
         }
         System.out.println(researchSubject+ "\t\t $ " + basePrice);
-        //if they surpervise 3 labs or more 
+        //if they surpervise 3 labs or more
 
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
         System.out.println("\n---------------------------------");
         System.out.println("\t\tTotal Payments\t$ "+ total);
-        
+
     }
 }
 class  MSStudent extends GraduateStudent {
 
+    FileInteractions courseAccess = new FileInteractions();
     private int[] gradCrnsTaken;
 
     public int[] getGradCrnsTaken() {
@@ -720,10 +731,15 @@ class  MSStudent extends GraduateStudent {
         System.out.println(getId() + "-" + getName());
         System.out.println("\n1 Credit Hour = $" + basePrice);
         System.out.println("CRN\tCR_PREFIX\tCR_HOURS");
-
-        for (int i = 0; i < this.gradCrnsTaken.length; i++) {
-            System.out.println(); //...
-        }
+            for(int crnsStudent: gradCrnsTaken){
+                for(Lecture course: courseAccess.getAllCourseList()){
+                    if(Integer.parseInt(course.getCrn())==crnsStudent){
+                        System.out.println(course.getCrn() +"\t" +  course.getPrefix() + "\t"+course.getCreditHours() + "\t" + course.getCreditHours() *basePrice );
+                        double classCost = course.getCreditHours() *basePrice;
+                        price = price + classCost;
+                    }
+                }
+            }
 
         price += health;
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
@@ -845,7 +861,7 @@ class studentLinkedList {
 
         System.out.println("Master Students\n------------");
         current = school;
-        
+
         while (current != null){
             if ( current.getStudent() instanceof MSStudent){
                 System.out.println("- " + current.getStudent().getName());
@@ -853,7 +869,7 @@ class studentLinkedList {
             current = current.getNext();
         }
         System.out.println("Undergraduate Students\n------------");
-        current  = school; 
+        current  = school;
         while (current != null){
             if ( current.getStudent() instanceof UndergraduateStudent){
                 System.out.println("- " + current.getStudent().getName());
@@ -939,15 +955,15 @@ class Lecture {
     ArrayList<Lab> labs;
 
     public String labReturn(){
-       if(hasLabs){
-           return "Yes";
-       }
-       if(!hasLabs){
-           return "No";
-       }
-       else {
-           return "";
-       }
+        if(hasLabs){
+            return "Yes";
+        }
+        if(!hasLabs){
+            return "No";
+        }
+        else {
+            return "";
+        }
     }
     // _________________
 
