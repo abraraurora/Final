@@ -1086,7 +1086,7 @@ class FileInteractions {
             Scanner fileRead = new Scanner(lecfile);
             String line;
             String[] readLine = {};
-            while (fileRead.hasNextLine()) {
+            while (fileRead.hasNextLine() || !shouldReadLine) {
                 //if the lab section has read the line, we do not want to read it again
                 if (shouldReadLine) {
                     line = fileRead.nextLine();
@@ -1150,6 +1150,7 @@ class FileInteractions {
                     allCourseList.add(newCourse);
                 }
             }
+            fileRead.close();
         } catch (FileNotFoundException e) {
             System.out.println("file not found!");
 
@@ -1163,13 +1164,30 @@ class FileWriteIO {
         try {
             FileWriter fileOverwrite = new FileWriter("lec.txt", false);
             for(Lecture course: fileIntDummy.getAllCourseList()){
-                if(course.isHasLabs()){
-                    fileOverwrite.write(course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "," + course.getLectureType() + "," + course.getLectureMode() + "," );
+                if(course.getLectureMode() != LectureMode.ONLINE){
+                    if(course.isHasLabs()) {
+                        fileOverwrite.write(course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "," + course.getLectureType() + "," + course.getLectureMode() + "," + course.getClassroom() + "," + course.labReturn() + "," + course.getCreditHours()+"\n");
+                        for(Lab lab : course.getLabs()){
+                            fileOverwrite.write(lab.getCrn() + "," + lab.getClassroom() + "\n");
+                        }
+                    }
+                    else if(!course.isHasLabs()){
+                        fileOverwrite.write(course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "," + course.getLectureType() + "," + course.getLectureMode() + "," + course.getClassroom() + "," + course.labReturn() + "," + course.getCreditHours()+"\n");
+                    }
+                }
+                else if(course.getLectureMode() == LectureMode.ONLINE){
+                    fileOverwrite.write(course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "," + course.getLectureType() + "," + course.getLectureMode() + "," + course.getCreditHours()+"\n");
                 }
             }
+            fileOverwrite.flush();
+            fileOverwrite.close();
         }
         catch (IOException e){
             System.out.println("Error reading/writing to file!!!");
         }
     }
+}
+
+class CharMisinput extends Throwable{
+
 }
