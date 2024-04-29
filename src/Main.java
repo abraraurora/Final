@@ -361,10 +361,41 @@ class StudentManagement extends Menus<Character> {
 }
 
 class CourseManagement extends Menus<Character> {
+     private MainMenu mainMenuObj;
+     public CourseManagement(){
+
+     }
+     public CourseManagement(MainMenu mainMenuObj){
+         this.mainMenuObj = mainMenuObj;
+     }
+
     FileInteractions fileIntObject = new FileInteractions();
     public Character menuPromptAndSelect() {
-        System.out.println("Course Management Menu:\n\nChoose one of:\n\nA - search for a class or lab using class/lab number\nB - delete a class\nC - Add a lab to a class\nX – Back to main menu");
-        return 'b' ;
+        char userInput = 'x';
+        Scanner courseScanner = new Scanner(System.in);
+        boolean whileFlag = true;
+        while(whileFlag) {
+            try {
+                System.out.println("Course Management Menu:\n\nChoose one of:\n\nA - search for a class or lab using class/lab number\nB - delete a class\nC - Add a lab to a class\nX – Back to main menu");
+                userInput = courseScanner.next().charAt(0);
+                userInput = Character.toLowerCase(userInput);
+                System.out.println(userInput);
+                whileFlag = false;
+                if(userInput != 'a' && userInput != 'b' && userInput != 'c' && userInput != 'x'){
+                    throw new CharMisinput();
+                }
+            }
+            catch (CharMisinput e){
+                System.out.println("Selection out of bounds!\ntrying again...");
+                whileFlag = true;
+            }
+            catch (Exception e){
+                System.out.println("Invalid Input!\ntrying again...");
+                whileFlag = true;
+            }
+
+        }
+        return userInput;
     }
 
     @Override
@@ -427,17 +458,34 @@ class CourseManagement extends Menus<Character> {
             case 'c' -> {Scanner crnScan = new Scanner(System.in);
                 System.out.println("Enter the course you'd like to add a lab to:");
                 int selectionNum = crnScan.nextInt();
+                crnScan.nextLine();
+                boolean negativeFlag = true;
                 for(Lecture course: fileIntObject.getAllCourseList()){
-                    if(Integer.parseInt(course.getCrn()) == selectionNum && !course.isHasLabs()) {
+                    if(Integer.parseInt(course.getCrn()) == selectionNum && course.isHasLabs()) {
                             System.out.println("enter the information for the lab in this format -> crn,classroom :");
                             String unparsedInput = crnScan.nextLine();
                             String[] labInfo = unparsedInput.split(",");
                             Lab newLab = new Lab(labInfo[0],labInfo[1]);
-                            course.getLabs().add(newLab);
+                            boolean labFlag = false;
+                            for(Lab lab : course.getLabs()){
+                                if(lab.getCrn().equals(newLab.getCrn())){
+                                    labFlag = true;
+                                }
+                            }
+                            if(labFlag){
+                                System.out.println("Lab already exists for this class!");
+                            }
+                            else if(!labFlag){
+                                course.getLabs().add(newLab);
+                                System.out.println("Lab " + newLab.getCrn() + " added to class " + course.getCrn() + "-" + course.getPrefix() + "-" + course.getLectureName() + " Successfully!" );
+                            }
                         }
                     }
+                if (negativeFlag){
+                    System.out.println("class not found!");
+                }
             }
-            case 'x' -> {}
+            case 'x' -> {return;}
         }
     }
 }
