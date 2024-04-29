@@ -680,6 +680,8 @@ class PHDStudent extends GraduateStudent {
         }else if(labsSupervised.length >= 3){
             basePrice= -700.00;
             total= health;
+        }else{
+            total = basePrice+ health;
         }
         System.out.println(researchSubject+ "\t\t $ " + basePrice);
         //if they surpervise 3 labs or more 
