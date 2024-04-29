@@ -171,7 +171,7 @@ class StudentManagement extends Menus<Character> {
                         System.out.println("Enter student ID:");
                         id = addStudent.nextLine();
 
-                        if (Main.school.searchStudent(id)) {
+                        if (Main.school.searchStudent(id) != null) {
                             System.out.println("Student with ID " + id + " already exists.");
                             throw new MyException();
                         }
@@ -294,8 +294,8 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("What Is The Student's ID:");
                 id=addStudent.nextLine();
 
-                if (!Main.school.searchStudent(id)){
-                    System.out.println("Student Not Found")
+                if (Main.school.searchStudent(id)==null){
+                    System.out.println("Student Not Found");
                 }else{
                     System.out.println(Main.school.searchStudent(id).getStudent().getName());
                 }
@@ -310,7 +310,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
-                if (!Main.school.searchStudent(id)) {
+                if (Main.school.searchStudent(id)==null) {
                     System.out.println("No Student Exists With that ID");
                     return;
                 }
@@ -336,7 +336,7 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("Enter student ID:");
                 id = addStudent.nextLine();
 
-                if (!Main.school.searchStudent(id)) {
+                if (Main.school.searchStudent(id)==null) {
                     System.out.println("No Student Exist With That ID");
                     return;
                 }
@@ -703,17 +703,16 @@ class studentLinkedList {
     }
 
     // Search the student by ID
-    public studentLinkedList searchStudent(String id) {
+    public studentNode searchStudent(String id) {
 
         studentNode current = school;
         while (current != null) {
             if (current.getStudent().getId().equals(id)) {
-                System.out.println(current.getStudent());
                 return current;
             }
             current = current.getNext();
         }
-        return current;
+        return null;
     }
 
     // Deletes the student by id
