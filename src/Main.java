@@ -143,6 +143,8 @@ class StudentManagement extends Menus<Character> {
                 case 'B':
                 case 'C':
                 case 'D':
+                case 'E':
+                    break;
                 case 'X':
                     break; // Valid input
                 default:
@@ -152,12 +154,6 @@ class StudentManagement extends Menus<Character> {
         catch (MyException | Exception e) {
             System.out.println("invalid input!");
             return 'Z';
-        }
-        finally {
-            //this isn't necessary
-            //if(studentSelection == 'a'  studentSelection != 'b' && studentSelection != 'c' && studentSelection != 'd' && studentSelection != 'e') ) { // will change
-            //    toggle = false;
-            // ...
         }
         return studentSelection;
     }
@@ -212,19 +208,19 @@ class StudentManagement extends Menus<Character> {
                     String name;
 
                     System.out.println("ADDING AN : Undergrad Student");
-                    System.out.println("Add Remaining Info");
+                    System.out.println("Add Remaining Info i.e Joe|3.0|3000,4000|yes");
 
 
                     String remaining;
                     remaining = addStudent.nextLine();
 
-                    ///input like this Joe | 3.0 | 3000,4000 | yes 
+                    ///input like this Joe|3.0|3000,4000|yes 
                     String[] remainArray = remaining.split("\\|");
                     String[] CrnNumbers = remainArray[remainArray.length - 2].split(",");
 
                     name = remainArray[0];
                     gpa  = Double.parseDouble(remainArray[1]);
-                    if (remainArray[remainArray.length].equals("yes")){
+                    if (remainArray[remainArray.length-1].equals("yes")){
                         resident = true; 
                     }else {
                         resident = false;
@@ -246,7 +242,7 @@ class StudentManagement extends Menus<Character> {
 
                 //different inputs for different types of students
                 if (type.equals("PhD")){
-                    System.out.println("Enter Remaining Information");
+                    System.out.println("Enter Remaining Information i.e Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442");
 
                     String remaining,advisorName, subject,name;
 
@@ -278,7 +274,7 @@ class StudentManagement extends Menus<Character> {
                 if(type.equals("MS")){
                     System.out.println("ADDING AN : Master Student");
                     
-                    System.out.println("Enter Remaining Information");
+                    System.out.println("Enter Remaining Information i.e NAME|1234,5678");
 
                     String remaining, name;
                     remaining = addStudent.nextLine();
@@ -370,7 +366,10 @@ class StudentManagement extends Menus<Character> {
                 Main.school.printFeeInvoice(id);
                 break;
             }//Print Fee invoice
-            case 'E'->{Main.school.printListStudents();break;}//Print all students
+            case 'E'->{
+                Main.school.printListStudents();
+                break;
+            }//Print all students
 
             default -> {}
         }
@@ -670,6 +669,7 @@ class PHDStudent extends GraduateStudent {
         System.out.println("\n1 Credit Hour = \t$" + basePrice);
         
         System.out.println("RESEARCH");
+        System.out.println(researchSubject);
         //if they surpervise 3 labs or more 
 
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
@@ -816,12 +816,33 @@ class studentLinkedList {
         if (school == null) {
             return;
         }
-
+        System.out.println("PhD Students\n------------");
         studentNode current = school;
         while (current != null) {
-            System.out.println("- " + current.getStudent().getName());
+            if ( current.getStudent() instanceof PHDStudent){
+                System.out.println("- " + current.getStudent().getName());
+            }
             current = current.getNext();
         }
+
+        System.out.println("Master Students\n------------");
+        current = school;
+        
+        while (current != null){
+            if ( current.getStudent() instanceof MSStudent){
+                System.out.println("- " + current.getStudent().getName());
+            }
+            current = current.getNext();
+        }
+        System.out.println("Undergraduate Students\n------------");
+        current  = school; 
+        while (current != null){
+            if ( current.getStudent() instanceof UndergraduateStudent){
+                System.out.println("- " + current.getStudent().getName());
+            }
+            current = current.getNext();
+        }
+
         return;
     }
 
