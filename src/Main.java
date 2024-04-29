@@ -117,7 +117,7 @@ class StudentManagement extends Menus<Character> {
         Scanner studentScan = new Scanner(System.in);
 
         try {
-            System.out.println("Student management Menu:\nChoose one of:\nA - Search add a student\nB - Delete a student\nC - Print Fee Invoice\nD - Print List of Students\nX - Back to Main menu");
+            System.out.println("Student management Menu:\nChoose one of:\nA - Add a student\nB - Search A Student\nC - Delete A Student \nD - Print Fee Invoice\nE - Print List of Students\nX - Back to Main menu");
             studentSelection = studentScan.next().charAt(0);
             studentSelection = Character.toUpperCase(studentSelection);
 
