@@ -487,6 +487,7 @@ class CourseManagement extends Menus<Character> {
                 if (negativeFlag){
                     System.out.println("Course/Lab was not found :(");
                 }
+                break;
             }
 
             case 'b' -> {System.out.println("Enter the Lab/course number you want deleted:");
@@ -506,6 +507,7 @@ class CourseManagement extends Menus<Character> {
                 if (negativeflag){
                     System.out.println("Class not found!");
                 }
+                break;
             }
             case 'c' -> {Scanner crnScan = new Scanner(System.in);
                 System.out.println("Enter the course you'd like to add a lab to:");
