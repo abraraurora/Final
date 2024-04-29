@@ -674,10 +674,10 @@ class PHDStudent extends GraduateStudent {
         
         System.out.println("RESEARCH");
         //checking the amount of labs supervised
-        if (labsSupervised== 2){
+        if (labsSupervised.length== 2){
             basePrice = basePrice - (basePrice*0.50);
             total = basePrice+ health
-        }else if(labsSupervised >= 3){
+        }else if(labsSupervised.length >= 3){
             basePrice= -700.00;
             total= health;
         }
