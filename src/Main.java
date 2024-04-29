@@ -162,7 +162,7 @@ class StudentManagement extends Menus<Character> {
         switch (sMenuSelection){
             case 'A'->{
 
-                String name,id, type;
+                String id, type;
                 int classes;
 
                 while (true){
@@ -191,46 +191,38 @@ class StudentManagement extends Menus<Character> {
 
                 if(type.equals("Undergrad")){
                     double gpa;
+                    boolean resident;
+                    String name;
 
                     System.out.println("ADDING AN : Undergrad Student");
-                    System.out.println("Enter the student's name:");
-                    name=addStudent.nextLine();
+                    System.out.println("Add Remaining Info");
 
-                    while (true){
-                        try{
-                            System.out.println("What Is The Students GPA");
-                            gpa=addStudent.nextDouble();
-                            addStudent.nextLine();//discard '\n'
 
-                                if  (gpa < 0 || gpa > 4.0){
-                                    throw new IllegalArgumentException("GPA must be between 0 and 4.0");
-                                }
+                    String remaining;
+                    remaining = addStudent.nextLine();
 
-                            //if GPA is Valid, Break the Loop
-                            break;
-                        }catch (InputMismatchException e){
-                            System.out.println("Invalid input format. Please enter a valid GPA.");
-                        }catch(IllegalArgumentException e){
-                            System.out.println(e.getMessage());
-                        }
+                    ///input like this Joe | 3.0 | 3000,4000 | yes 
+                    String[] remainArray = remaining.split("\\|");
+                    String[] CrnNumbers = remainArray[remainArray.length - 2].split(",");
+
+                    name = remainArray[0];
+                    gpa  = Double.parseDouble(remainArray[1]);
+                    if (remainArray[remainArray.length].equals("yes")){
+                        resident = true; 
+                    }else {
+                        resident = false;
                     }
 
+                    int numOfCrns = CrnNumbers.length;
 
-                    System.out.println("How Many CRNS Are They Taking");
-                    classes=addStudent.nextInt();
-                    addStudent.nextLine();//discard '\n'
-                    int undergradCrnsTaken[]=new int[classes];
-                    for (int i=0; i<classes;i++){
-                        System.out.println("What Class Number "+(i+1)+" Code");
-                        undergradCrnsTaken[i]=addStudent.nextInt();
-                        addStudent.nextLine();//discard '\n'
+                    int [] undergradCrnsTaken = new int [numOfCrns];
+
+                     for (int i = 0; i < numOfCrns ; i++){
+                        undergradCrnsTaken[i] = Integer.parseInt(CrnNumbers[i]);
                     }
-
-                    System.out.println("Are They A Resident");
-                    //not sure what this is?
 
                     //creating student
-                    Student newStudent= new UndergraduateStudent(name,id,undergradCrnsTaken,gpa,false);
+                    Student newStudent= new UndergraduateStudent(name,id,undergradCrnsTaken,gpa,resident);
                     Main.school.addNewStudent(newStudent);
                     System.out.println(name + " ADDED");
                 }
@@ -239,11 +231,11 @@ class StudentManagement extends Menus<Character> {
                 if (type.equals("PhD")){
                     System.out.println("Enter Remaining Information");
 
-                    String remaining,advisorName, subject;
+                    String remaining,advisorName, subject,name;
 
                     
 
-                    remaining= addStudent.nextLine();
+                    remaining = addStudent.nextLine();
                     //getting the input in this format Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442
                     String[] remainArray = remaining.split("\\|");
                     String[] labNumbers = remainArray[remainArray.length - 1].split(",");
@@ -269,33 +261,24 @@ class StudentManagement extends Menus<Character> {
                 if(type.equals("MS")){
                     System.out.println("ADDING AN : Master Student");
                     
-                    System.out.println("Enter the student's name:");
-                    name=addStudent.nextLine();
+                    System.out.println("Enter Remaining Information");
 
-                    System.out.println("How Many CRNS Are They Taking");
+                    String remaining, name;
+                    remaining = addStudent.nextLine();
+                    String[] remainArray = remaining.split("\\|");
+                    String[] CrnNumbers = remainArray[remainArray.length - 1].split(",");
 
+                    name = remainArray[0];
+                    
+                    int numOfCrns = CrnNumbers.length;
 
-                    while (true){
-                        try{
+                    int [] gradCrnsTaken = new int [numOfCrns];
 
-                            classes=addStudent.nextInt();
-                            addStudent.nextLine();//discard '\n'
-                            break;
-                        }catch(InputMismatchException e){
-                            System.out.println("Invalid input. It Has To Be A Number");
-                        }
+                     for (int i = 0; i < numOfCrns ; i++){
+                        gradCrnsTaken[i] = Integer.parseInt(CrnNumbers[i]);
                     }
 
-                    int gradCrnsTaken[]=new int[classes];
-                    for (int i=0; i<classes;i++){
-                        System.out.println("What Class Number "+(i+1)+" Code");
-                        try{
-                            gradCrnsTaken[i]=addStudent.nextInt();
-                            addStudent.nextLine();//discard '\n'
-                        } catch(InputMismatchException e){
-                            System.out.println("Invalid input. It Has To Be A Number");
-                        }
-                    }
+
 
 
                     Student newMasterStudent= new MSStudent(name, id, gradCrnsTaken);
@@ -726,7 +709,6 @@ class studentLinkedList {
             }
             current = current.getNext();
         }
-        System.out.println("Student Not Found");
         return false;
     }
 
