@@ -204,7 +204,7 @@ class StudentManagement extends Menus<Character> {
                 type=addStudent.nextLine();
 
 
-                if(type.equals("Undergrad")){
+                if(type.equalsIgnoreCase("Undergrad")){
                     double gpa;
                     boolean resident;
                     String name;
@@ -243,7 +243,7 @@ class StudentManagement extends Menus<Character> {
                 }
 
                 //different inputs for different types of students
-                if (type.equals("PhD")){
+                if (type.equalsIgnoreCase("PhD")){
                     System.out.println("Enter Remaining Information i.e Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442");
 
                     String remaining,advisorName, subject,name;
@@ -273,7 +273,7 @@ class StudentManagement extends Menus<Character> {
                     System.out.println(name + " ADDED");
                 }
 
-                if(type.equals("MS")){
+                if(type.equalsIgnoreCase("MS")){
                     System.out.println("ADDING AN : Master Student");
 
                     System.out.println("Enter Remaining Information i.e NAME|1234,5678");
@@ -617,7 +617,7 @@ class UndergraduateStudent extends Student{
         System.out.println("\n---------------------------------");
         double discount = 0;
         if (getGpa() >= 3.5 && price > 500) { // For some reason, it says that this is always false?
-            discount = price - (price * 0.75);
+            discount = (price * 0.75);
             System.out.println("\t\t\t  discount     -$" + discount);
             System.out.println("\t\tTOTAL PAYMENTS\t\t$" + (price-discount));
         } else {
