@@ -676,7 +676,7 @@ class PHDStudent extends GraduateStudent {
         //checking the amount of labs supervised
         if (labsSupervised.length== 2){
             basePrice = basePrice - (basePrice*0.50);
-            total = basePrice+ health
+            total = basePrice+ health;
         }else if(labsSupervised.length >= 3){
             basePrice= -700.00;
             total= health;
