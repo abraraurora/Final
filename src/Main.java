@@ -202,11 +202,6 @@ class StudentManagement extends Menus<Character> {
                 System.out.println("What Type of Student (PhD, MS or Undergrad):");
                 type=addStudent.nextLine();
 
-                if (!type.equals("PhD") || !type.equals("MS")|| !type.equals("Undergrad")){
-                    System.out.println("Please Type Exactly:  PhD || MS || Undergrade");
-                    return; 
-                }
-
 
                 if(type.equals("Undergrad")){
                     System.out.println("ADDING AN : Undergrad Student");
@@ -230,24 +225,30 @@ class StudentManagement extends Menus<Character> {
 
                 //different inputs for different types of students
                 if (type.equals("PhD")){
-                    System.out.println("ADDING AN : PHD Student");
-                    String subject, advisorName;
-                    int labAmount, labNumbers;
-                    System.out.println("What Is The name of advisor");
-                    advisorName=addStudent.nextLine();
-                    System.out.println("What Is Their Reseach Subject");
-                    subject=addStudent.nextLine();
+                    System.out.println("Enter Remaining Information");
 
-                    System.out.println("What is the amount of labs");
-                    labAmount=addStudent.nextInt();
-                    addStudent.nextLine();//discard '\n'
-                    int labsSupervised[] = new int [labAmount];
-                    for (int i = 0; i<labAmount;i++){
-                        System.out.println("The" +(i+1)+"Lab Number is :");
-                        labsSupervised[i]=addStudent.nextInt();
-                        addStudent.nextLine();//discard '\n'
+                    String remaining,advisorName, subject;
+
+                    
+
+                    remaining= addStudent.nextLine();
+                    //getting the input in this format Zaydoun BenSellam|Gary Richardson|Fuzzy Toplology|20300,94442
+                    String[] remainArray = remaining.split("\\|");
+                    String[] labNumbers = remainArray[remainArray.length - 1].split(",");
+
+
+                    name = remainArray[0];
+                    advisorName = remainArray[1];
+                    subject = remainArray[2];
+                    
+                    int numOfLabs = labNumbers.length;
+                    int [] labsSupervised = new int[numOfLabs];
+
+                    for (int i = 0; i < numOfLabs ; i++){
+                        labsSupervised[i] = Integer.parseInt(labNumbers[i]);
+                        System.out.println("Adding "+ labsSupervised[i]);
                     }
-
+                    
                     Student newPhdStudent= new PHDStudent(name, id, labsSupervised,advisorName,subject);
                     Main.school.addNewStudent(newPhdStudent);
                 }
@@ -527,6 +528,7 @@ class UndergraduateStudent extends Student{
         for (int i = 0; i < this.undergradCrnsTaken.length; i++) {
             System.out.printf("\n%d\t%s\t\t%d", undergradCrnsTaken[i], undergradCrnsTaken[i], undergradCrnsTaken[i]);
         }
+
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
         System.out.println("\n---------------------------------");
         double discount = 0;
@@ -1110,7 +1112,7 @@ class FileWriteIO {
             FileWriter fileOverwrite = new FileWriter("lec.txt", false);
             for(Lecture course: fileIntDummy.getAllCourseList()){
                 if(course.isHasLabs()){
-                    fileOverwrite.write(course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "," + course.getLectureType() + "," + course.getLectureMode() + "," + );
+                    fileOverwrite.write(course.getCrn() + "," + course.getPrefix() + "," + course.getLectureName() + "," + course.getLectureType() + "," + course.getLectureMode() + "," );
                 }
             }
         }
