@@ -26,9 +26,14 @@ public class Main { //main class where all the classes and methods will be calle
         //OTHERWISE WE WILL END UP WITH INFINITE OBJECT RECURSION
         MainMenu mainMenu = new MainMenu(courseMenu,studentMenu);
         //insert main code here for main program to run
-        //......
+        
         FileWriteIO newFileWrite = new FileWriteIO();
         newFileWrite.fileWriter();
+
+        //main looop has to be here or the filewrite wont work
+        while (true){
+            mainMenu.menuSelectCheck();
+        }
     }
 }
 
@@ -603,7 +608,7 @@ class UndergraduateStudent extends Student{
         System.out.println("\n---------------------------------");
         double discount = 0;
         if (getGpa() >= 3.5 && price > 500) { // For some reason, it says that this is always false?
-            discount = price * 0.25;
+            discount = price - (price * 0.25);
             // print total minus discounted prices
         } else {
             System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
@@ -661,15 +666,22 @@ class PHDStudent extends GraduateStudent {
     @Override
     public void printInvoice() {
         double total = 0;
-        double basePrice= 120.00;
+        double basePrice= 700.00;
         double health =  35.00;
         System.out.println("\nVALENCE COLLEGE\nORLANDO FL 10101");
         System.out.println("-----------------------------");
         System.out.println(getId() + "-" + getName());
-        System.out.println("\n1 Credit Hour = \t$" + basePrice);
         
         System.out.println("RESEARCH");
-        System.out.println(researchSubject);
+        //checking the amount of labs supervised
+        if (labsSupervised== 2){
+            basePrice = basePrice - (basePrice*0.50);
+            total = basePrice+ health
+        }else if(labsSupervised >= 3){
+            basePrice= -700.00;
+            total= health;
+        }
+        System.out.println(researchSubject+ "\t\t $ " + basePrice);
         //if they surpervise 3 labs or more 
 
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
@@ -710,8 +722,11 @@ class  MSStudent extends GraduateStudent {
         for (int i = 0; i < this.gradCrnsTaken.length; i++) {
             System.out.println(); //...
         }
+
+        price += health;
         System.out.println("\n\t\tHealth & id Fees  $ " + health);
         System.out.println("\n---------------------------------");
+
         System.out.println("\t\tTOTAL PAYMENTS\t\t$ " + price);
     }
 }
@@ -790,6 +805,7 @@ class studentLinkedList {
 
         // If the first student is being deleted, return
         if (school.getStudent().getId().equals(id)) {
+            System.out.println(school.getStudent().getName() + " Has Been Successfully Deleted");
             school = school.getNext();
             return;
         }
